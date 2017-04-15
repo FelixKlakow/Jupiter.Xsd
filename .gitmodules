@@ -1,0 +1,3 @@
+[submodule "Jupiter.Core"]
+	path = Jupiter.Core
+	url = https://github.com/FelixKlakow/Jupiter.Core
