@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jupiter.Core", "..\Jupiter.Core\Jupiter.Core\Jupiter.Core.csproj", "{ED1AF575-6905-4A10-812D-9F00C88905CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{1034D60E-2D82-4023-B66F-84329D2FCABE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdToClass", "XsdToClass\XsdToClass.csproj", "{B9CF7D9A-82AB-431E-B61B-058D23950995}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED1AF575-6905-4A10-812D-9F00C88905CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED1AF575-6905-4A10-812D-9F00C88905CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED1AF575-6905-4A10-812D-9F00C88905CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED1AF575-6905-4A10-812D-9F00C88905CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9CF7D9A-82AB-431E-B61B-058D23950995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9CF7D9A-82AB-431E-B61B-058D23950995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9CF7D9A-82AB-431E-B61B-058D23950995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9CF7D9A-82AB-431E-B61B-058D23950995}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED1AF575-6905-4A10-812D-9F00C88905CB} = {1034D60E-2D82-4023-B66F-84329D2FCABE}
+	EndGlobalSection
+EndGlobal
