@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace XsdToClass
 {
@@ -19,6 +18,12 @@ namespace XsdToClass
         StreamWriter _Writer;
 
         WriterLevel _Level = WriterLevel.Using;
+        #endregion
+        #region #### PROPERTIES #########################################################
+        /// <summary>
+        /// Retrieves the name of the type currently written.
+        /// </summary>
+        public String CurrentTypeName { get; private set; }
         #endregion
         #region #### CTOR ###############################################################
         /// <summary>
@@ -75,12 +80,10 @@ namespace XsdToClass
         public void BeginClass(String className, String baseClassName = null, Boolean isAbstract = false)
         {
             EnsureLevel(WriterLevel.Namespace);
+            
+            if (baseClassName != null) baseClassName = $" : {baseClassName}";
 
-            if (baseClassName != null)
-            {
-                baseClassName = $" : {baseClassName}";
-            }
-
+            CurrentTypeName = className;
             _Writer.WriteLine($"\tpublic{(isAbstract ? " abstract" : String.Empty)} class {className}{baseClassName}");
             _Writer.WriteLine("\t{");
 
@@ -121,6 +124,8 @@ namespace XsdToClass
         /// </summary>
         public void CloseBracket()
         {
+            if (_Level == WriterLevel.Type) CurrentTypeName = null;
+
             _Level = _Level - 1;
             _Writer.WriteLine(GetIntent() + "}");
         }
@@ -172,6 +177,33 @@ namespace XsdToClass
         #region #### PROPERTIES #########################################################
         #endregion
         #region #### PUBLIC #############################################################
+        /// <summary>
+        /// Cleans a member name string into a .NET comform one.
+        /// </summary>
+        /// <param name="value">The value to clean.</param>
+        /// <param name="upperCase">Specifies if all characters should be upper case.</param>
+        /// <param name="formatter">The formatter which is used.</param>
+        /// <param name="replacementPattern">Determines</param>
+        /// <returns>The value of the string.</returns>
+        public static String CleanMemberName(this String value, Boolean upperCase, SimpleClassFormatter formatter, String replacementPattern)
+        {
+            StringBuilder builder = new StringBuilder();
+            // Remove unneccessary and forbidden chars
+            foreach (String item in value.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries))
+            {
+                // Ensure first character is always upper-case
+                if (upperCase)
+                {
+                    // Append only the first character
+                    builder.Append(Char.ToUpper(item[0]));
+                    // Append rest of the string
+                    builder.Append(item.Substring(1));
+                }
+                else builder.Append(item);
+            }
+            String result = builder.ToString();
+            return result == formatter.CurrentTypeName ? String.Format(replacementPattern, result) : result;
+        }
         /// <summary>
         /// Cleans a string into a .NET comform one.
         /// </summary>

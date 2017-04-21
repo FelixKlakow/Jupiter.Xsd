@@ -59,6 +59,11 @@ namespace XsdToClass
         /// </summary>
         [Option("targetNamespace", Default = "Unknown", Required = false, HelpText = "Specifies the namespace for all classes.")]
         public String TargetNamespace { get; set; }
+        /// <summary>
+        /// Specifies the pattern for members which must be renamed when having the same name as the enclosing type.
+        /// </summary>
+        [Option("renamingPattern", Default = "{0}Data", Required = false, HelpText = "Specifies the pattern for members which must be renamed when having the same name as the enclosing type.")]
+        public String RenamingPattern { get; set; }
         #endregion
         #region #### EVENTS #############################################################
         #endregion

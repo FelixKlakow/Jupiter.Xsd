@@ -139,19 +139,23 @@ namespace XsdToClass
             }
             formatter.BeginClass((name ?? type.Name).CleanName(options.CleanNames), baseType, isAbstract: type.IsAbstract);
 
-            if ((type.Particle ?? extension.Particle) is XmlSchemaSequence sequence)
+            if ((type.Particle ?? extension.Particle) is XmlSchemaGroupBase sequence)
             {
-                // Parse schema elements
-                foreach (XmlSchemaElement sequenceItem in sequence.Items.OfType<XmlSchemaElement>().Where(p => p.ElementSchemaType != null))
-                {
-                    formatter.WriteMember(sequenceItem, options, schemas, processedSchemas);
-                }
-
+                formatter.WriteSequence(sequence, options, schemas, processedSchemas);
             }
-            else throw new NotImplementedException();
+            else if (type.Particle != null) throw new NotImplementedException();
 
             // Close class definition
             formatter.CloseBracket();
+        }
+        static void WriteSequence(this SimpleClassFormatter formatter, XmlSchemaGroupBase sequence, CommandLineOptions options, Queue<XmlSchema> schemas, HashSet<XmlSchema> processedSchemas)
+        {
+            // Parse schema elements
+            foreach (XmlSchemaElement sequenceItem in sequence.Items.OfType<XmlSchemaElement>().Where(p => p.ElementSchemaType != null))
+                formatter.WriteMember(sequenceItem, options, schemas, processedSchemas);
+            
+            foreach (XmlSchemaGroupBase item in sequence.Items.OfType<XmlSchemaGroupBase>())
+                formatter.WriteSequence(item, options, schemas, processedSchemas);
         }
         /// <summary>
         /// Writes a csharp header into the file.
@@ -184,8 +188,8 @@ namespace XsdToClass
             }
             else throw new NotImplementedException();
 
-            String cleanMemberName = memberName.CleanName(options.CleanNames);
-            String cleanTypeName = typeName.CleanName(options.CleanNames);
+            String cleanMemberName = memberName.CleanMemberName(options.CleanNames, formatter, options.RenamingPattern);
+            String cleanTypeName = typeName.CleanMemberName(options.CleanNames, formatter, options.RenamingPattern);
             // Write data contract if enabled
             if (options.DataContracts && memberName != cleanMemberName)
             {
